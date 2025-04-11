@@ -14,6 +14,8 @@ import Cursor from "../components/Cursor";
 // Local Data
 import data from "../data/portfolio.json";
 import { getPosts } from "../lib/ghost";
+import TechHoverPanel from "../components/TechStack/Tech";
+import TechGalaxy from "../components/TechStack/Tech";
 
 
 export async function getStaticProps() {
@@ -118,6 +120,9 @@ export default function Home({ posts }) {
             ))}
           </div>
         </div>
+
+            <TechGalaxy />
+
         <h2 className="text-2xl mt-10 mb-4">Siste fra bloggen</h2>
 <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6">
   {posts.slice(0, 4).map(post => (
@@ -158,7 +163,7 @@ export default function Home({ posts }) {
         {process.env.NODE_ENV === "development" && (
           <div className="fixed bottom-5 right-5">
             <Link href="/edit">
-              <Button type="primary">Edit Data test4</Button>
+              <Button type="primary">Edit Data</Button>
             </Link>
           </div>
         )}
