@@ -13,8 +13,18 @@ import Cursor from "../components/Cursor";
 
 // Local Data
 import data from "../data/portfolio.json";
+import { getPosts } from "../lib/ghost";
 
-export default function Home() {
+
+export async function getStaticProps() {
+  const posts = await getPosts();
+  return {
+    props: { posts },
+    revalidate: 60
+  };
+}
+
+export default function Home({ posts }) {
   // Ref
   const workRef = useRef();
   const aboutRef = useRef();
@@ -108,7 +118,30 @@ export default function Home() {
             ))}
           </div>
         </div>
-
+        <h2 className="text-2xl mt-10 mb-4">Siste fra bloggen</h2>
+<div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-6">
+  {posts.slice(0, 4).map(post => (
+    <div key={post.id} className="border rounded-lg shadow p-4">
+      {post.feature_image && (
+        <img
+          src={post.feature_image}
+          alt={post.title}
+          className="rounded mb-4 w-full h-40 object-cover"
+        />
+      )}
+      <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+      <p className="text-sm text-gray-500">
+        {post.primary_author?.name || "Ukjent forfatter"}
+      </p>
+      <Link
+        href={`/tech-blog/${post.slug}`}
+        className="text-blue-500 hover:underline text-sm mt-2 block"
+      >
+        Les mer →
+      </Link>
+    </div>
+  ))}
+</div>
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
           <h1 className="tablet:m-10 text-2xl text-bold">Services.</h1>
           <div className="mt-5 tablet:m-10 grid grid-cols-1 laptop:grid-cols-2 gap-6">
